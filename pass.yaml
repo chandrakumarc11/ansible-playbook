@@ -1,8 +1,10 @@
 ---
- - hosts: all
+ - hosts: localhost
+   remote_user: root
    become: yes
-   vars_files: valut_pass.yaml
-    tasks:
-      - name: trying out echo command
-         ansible.builtin.debug:
-          msg: "helo my username is {{username}} & pass is {{password}}"
+   vars_files:
+      vault-pass.yaml
+   tasks:
+     - name: Print the gateway for each host when defined
+       debug:
+         msg: "hello my username is {{username}} & pass is {{password}}"
