@@ -1,0 +1,14 @@
+---  
+    - hosts: localhost
+#        remote_user: root
+        become: yes
+        tasks:
+     - name: install the latest version of tools
+        apt:
+          name: "{{ item }}"
+          state: present   
+     loop:
+        - php
+        - mysql
+        - unzip
+        - http_present
