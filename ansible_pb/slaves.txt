@@ -1,0 +1,6 @@
+#172.31.40.101 ansible_user=chandru
+
+[web]
+172.31.4.138
+[jenkins]
+172.31.6.152

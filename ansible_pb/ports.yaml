@@ -1,0 +1,17 @@
+---
+  - hosts: localhost
+
+    tasks:
+      - name: "Example1: Validate if a String or line is present in the file"
+        become: yes
+        become_user: root
+        tags: example1
+        lineinfile:
+          path: /etc/default/jenkins
+          # The String to Search
+          regexp: "HTTP_PORT=8080"
+          # The String to Replace
+          line: "HTTP_PORT=9090"
+          state: present
+          backup: yes
+        register: example1out

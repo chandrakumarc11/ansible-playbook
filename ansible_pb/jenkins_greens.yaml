@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: Update apt cache and make sure Vim, Curl and Unzip are installed
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - vim
+        - curl
+        - unzip
+        - openjdk-17-jdk
+
+    - name: ensure the jenkins apt repository key is installed
+      apt_key: url=https://pkg.jenkins.io/debian/jenkins.io-2023.key state=present
+      become: yes
+
+    - name: ensure the repository is configured
+      apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+      become: yes
+
+    - name: ensure jenkins is installed
+      apt: name=jenkins update_cache=yes
+      become: yes
+
+    - name: ensure jenkins is running
+      service: name=jenkins state=started
+
+    - name: "changing port for jenkins"
+        become: yes
+        become_user: root
+        tags: example1
+        lineinfile:
+          path: /etc/default/jenkins
+          # The String to Search
+          regexp: "HTTP_PORT=8080"
+          # The String to Replace
+          line: "HTTP_PORT=8080"
+          state: present
+#          backup: yes
+        register: example1out
